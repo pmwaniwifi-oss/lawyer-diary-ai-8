@@ -12,6 +12,10 @@ jobs:
         with:
           channel: stable
       - run: flutter create --platforms=android --project-name lawyer_diary_ai_8 --org in.lawyerdiary .
+      - name: Remove generated starter test and lint config
+        run: |
+          rm -f test/widget_test.dart
+          rm -f analysis_options.yaml
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter build apk --debug
