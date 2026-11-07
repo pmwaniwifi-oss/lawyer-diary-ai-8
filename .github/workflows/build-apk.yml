@@ -11,17 +11,11 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-      - name: Generate Android project
-        run: flutter create --platforms=android --project-name lawyer_diary_ai_8 --org in.lawyerdiary .
-      - name: Restore Firebase configuration
-        env:
-          FIREBASE_OPTIONS_B64: ${{ secrets.FIREBASE_OPTIONS_B64 }}
-        run: |
-          test -n "$FIREBASE_OPTIONS_B64" || { echo "Set FIREBASE_OPTIONS_B64 first"; exit 1; }
-          printf '%s' "$FIREBASE_OPTIONS_B64" | base64 -d > lib/firebase_options.dart
+      - run: flutter create --platforms=android --project-name lawyer_diary_ai_8 --org in.lawyerdiary .
       - run: flutter pub get
+      - run: flutter analyze
       - run: flutter build apk --debug
       - uses: actions/upload-artifact@v4
         with:
-          name: lawyer-diary-debug-apk
+          name: lawyer-diary-offline-debug-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
