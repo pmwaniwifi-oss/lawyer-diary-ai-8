@@ -11,14 +11,16 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-      - run: flutter create --platforms=android --project-name lawyer_diary_ai_8 --org in.lawyerdiary .
-      - name: Remove generated starter test and lint config
-        run: |
-          rm -f test/widget_test.dart
-          rm -f analysis_options.yaml
-      - run: flutter pub get
-      - run: flutter analyze
-      - run: flutter build apk --debug
+      - name: Generate Android platform
+        run: flutter create --platforms=android --project-name lawyer_diary_ai_8 --org in.lawyerdiary .
+      - name: Remove Flutter demo test
+        run: rm -f test/widget_test.dart
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Check Dart code
+        run: flutter analyze
+      - name: Build APK
+        run: flutter build apk --debug
       - uses: actions/upload-artifact@v4
         with:
           name: lawyer-diary-offline-debug-apk
